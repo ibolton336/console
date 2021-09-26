@@ -3,6 +3,7 @@
 import * as webpack from 'webpack';
 import * as path from 'path';
 import { ConsoleRemotePlugin } from '@openshift-console/dynamic-plugin-sdk-webpack';
+const { stylePaths } = require('./stylePaths');
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
@@ -20,6 +21,42 @@ const config: webpack.Configuration = {
   module: {
     rules: [
       {
+        test: /\.(jpg|jpeg|png|gif)$/i,
+        include: [
+          path.resolve(__dirname, '../src'),
+          path.resolve(__dirname, '../node_modules/patternfly'),
+          path.resolve(__dirname, '../node_modules/@patternfly/patternfly/assets/images'),
+          path.resolve(__dirname, '../node_modules/@patternfly/react-styles/css/assets/images'),
+          path.resolve(
+            __dirname,
+            '../node_modules/@patternfly/react-core/dist/styles/assets/images',
+          ),
+          path.resolve(
+            __dirname,
+            '../node_modules/@patternfly/react-core/node_modules/@patternfly/react-styles/css/assets/images',
+          ),
+          path.resolve(
+            __dirname,
+            '../node_modules/@patternfly/react-table/node_modules/@patternfly/react-styles/css/assets/images',
+          ),
+          path.resolve(
+            __dirname,
+            '../node_modules/@patternfly/react-inline-edit-extension/node_modules/@patternfly/react-styles/css/assets/images',
+          ),
+        ],
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 5000,
+              outputPath: 'images',
+              name: '[name].[ext]',
+            },
+          },
+        ],
+        type: 'javascript/auto',
+      },
+      {
         test: /(\.jsx?)|(\.tsx?)$/,
         exclude: /node_modules/,
         use: [
@@ -30,6 +67,11 @@ const config: webpack.Configuration = {
             },
           },
         ],
+      },
+      {
+        test: /\.css$/,
+        include: [...stylePaths],
+        use: ['style-loader', 'css-loader'],
       },
     ],
   },

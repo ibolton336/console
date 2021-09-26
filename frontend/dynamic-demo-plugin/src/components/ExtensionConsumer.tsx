@@ -1,55 +1,14 @@
 import * as React from 'react';
-// import { useState, useMemo, useRef, useEffect } from 'react';
-import { useState, useMemo, useRef } from 'react';
-import useWebSocket from 'react-use-websocket';
-// import useWebSocket, { ReadyState } from 'react-use-websocket';
-import * as _ from 'lodash';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import ExtensionConsumerChild from './ExtensionConsumerChild';
 
 const ExtensionConsumer: React.FC = () => {
-  const [socketUrl] = useState(`ws://127.0.0.1:9001`);
-  const messageHistory = useRef([]);
-  const {
-    // sendMessage,
-    // sendJsonMessage,
-    lastMessage,
-    lastJsonMessage,
-    // readyState,
-    // getWebSocket,
-  } = useWebSocket(socketUrl, {
-    onOpen: () => console.log('opened'),
-    //Will attempt to reconnect on all close events, such as server shutting down
-    shouldReconnect: (closeEvent) => true,
-  });
-
-  messageHistory.current = useMemo(() => messageHistory.current.concat(lastMessage), [lastMessage]);
-  // debugger;
-  // const connectionStatus = {
-  //   [ReadyState.CONNECTING]: 'Connecting',
-  //   [ReadyState.OPEN]: 'Open',
-  //   [ReadyState.CLOSING]: 'Closing',
-  //   [ReadyState.CLOSED]: 'Closed',
-  //   [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
-  // }[readyState];
-  // useEffect(() => {
-  //   debugger;
-  //   const LS_KEY_CURRENT_USER = 'currentUser';
-  //   const currentUser = JSON.parse(localStorage.getItem(LS_KEY_CURRENT_USER));
-  //   const msg = {
-  //     type: 'GET_EVENTS',
-  //     date: Date.now(),
-  //     token: currentUser,
-  //   };
-  //   if (connectionStatus === 'Open') {
-  //     sendJsonMessage(msg);
-  //   }
-  // }, [connectionStatus]);
+  const queryClient = new QueryClient();
 
   return (
-    <div>
-      {/* <div>The WebSocket is currently {connectionStatus}</div> */}
-      {lastJsonMessage ? <span>Last message: {lastJsonMessage?.data?.kind}</span> : null}
-      <ul></ul>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <ExtensionConsumerChild />
+    </QueryClientProvider>
   );
 };
 
