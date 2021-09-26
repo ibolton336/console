@@ -11,8 +11,8 @@
     "ts-node": "ts-node -O '{\"module\":\"commonjs\"}' -I '/node_modules/(?!(@openshift-console)/)/'"
   },
   "devDependencies": {
-    "@openshift-console/dynamic-plugin-sdk": "file:../packages/console-dynamic-plugin-sdk/dist/core",
     "@openshift-console/dynamic-plugin-sdk-webpack": "file:../packages/console-dynamic-plugin-sdk/dist/webpack",
+    "@openshift-console/dynamic-plugin-sdk": "0.0.0-beta1",
     "@types/react": "^17.0.24",
     "copy-webpack-plugin": "^6.4.1",
     "http-server": "0.12.x",
@@ -33,8 +33,7 @@
       "telemetry": "./utils/telemetry",
       "extensionConsumer": "./components/ExtensionConsumer.tsx",
       "utilityConsumer": "./components/UtilityConsumer.tsx",
-      "navPage": "./components/Nav",
-      "listPage": "./components/ListPage"
+      "navPage": "./components/Nav"
     },
     "dependencies": {
       "@console/pluginAPI": "*"
@@ -45,6 +44,7 @@
     "@kubernetes/client-node": "^0.15.1",
     "axios": "^0.21.4",
     "css-loader": "^6.3.0",
+    "http-proxy-middleware": "^2.0.1",
     "nodemon": "^2.0.13",
     "react": "^17.0.2",
     "react-query": "^3.17.0",

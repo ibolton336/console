@@ -107,12 +107,5 @@
     "flags": {
       "required": ["OPENSHIFT"]
     }
-  },
-  {
-    "type": "console.page/route",
-    "properties": {
-      "path": "/demo-list-page",
-      "component": { "$codeRef": "listPage" }
-    }
   }
 ]

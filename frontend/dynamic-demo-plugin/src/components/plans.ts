@@ -69,10 +69,7 @@ const planResource = new MigResource(MigResourceKind.MigPlan, 'openshift-migrati
 
 export const usePlansQuery = (): UseQueryResult<IKubeList<any>> => {
   const client = useAuthorizedK8sClient();
-  const sortKubeListByNameCallback = React.useCallback(
-    (data): IKubeList<any> => sortKubeListByName(data),
-    [],
-  );
+  const sortKubeListByNameCallback = React.useCallback((data): IKubeList<any> => data, []);
   const result = useMockableQuery<IKubeList<any>>(
     {
       queryKey: 'plans',
@@ -82,6 +79,8 @@ export const usePlansQuery = (): UseQueryResult<IKubeList<any>> => {
     },
     mockKubeList(null, 'Plan'),
   );
+  debugger;
+  console.log('result', result);
   return result;
 };
 

@@ -41,7 +41,7 @@ export const useFetchContext = (): IFetchContext => {
 
   let checkExpiry;
   let currentUser = {
-    access_token: 'fdjasfjslkjflsk',
+    access_token: 'sha256~JQmn2Q1AGDmd8T-GSIlG-4YmiuqpcR6nxsaXx39wXlU',
     expiry_time: 8333,
   };
   return { history: useHistory(), checkExpiry, currentUser };
@@ -52,7 +52,7 @@ export const authorizedFetch = async <T>(
   fetchContext: IFetchContext,
   extraHeaders: RequestInit['headers'] = {},
 ): Promise<T> => {
-  const { history, checkExpiry } = fetchContext;
+  // const { history, checkExpiry } = fetchContext;
   try {
     const response = await fetch(url, {
       headers: {
@@ -66,7 +66,8 @@ export const authorizedFetch = async <T>(
       throw response;
     }
   } catch (error) {
-    checkExpiry(error, history);
+    console.log('error', error);
+    // checkExpiry(error, history);
     throw error;
   }
 };
@@ -91,7 +92,7 @@ export const authorizedK8sRequest = async <T>(
   fetchContext: IFetchContext,
   requestFn: () => Promise<IKubeResponse<T>>,
 ): Promise<IKubeResponse<T>> => {
-  const { history, checkExpiry } = fetchContext;
+  // const { history, checkExpiry } = fetchContext;
 
   try {
     const response = await requestFn();
@@ -101,7 +102,8 @@ export const authorizedK8sRequest = async <T>(
       throw response;
     }
   } catch (error) {
-    checkExpiry(error, history);
+    console.log('error', error);
+    // checkExpiry(error, history);
     throw error;
   }
 };
@@ -131,14 +133,14 @@ export const useAuthorizedK8sClient = () => {
 export const useClientInstance = (): ClusterClient => {
   // const { currentUser } = useNetworkContext();
   let currentUser = {
-    access_token: 'fdjasfjslkjflsk',
+    access_token: 'sha256~JQmn2Q1AGDmd8T-GSIlG-4YmiuqpcR6nxsaXx39wXlU',
     expiry_time: 8333,
   };
   const user = {
     access_token: currentUser.access_token || '',
     expiry_time: currentUser.expiry_time || 0,
   };
-  return ClientFactory.cluster(user, '/cluster-api');
+  return ClientFactory.cluster(user, 'http://localhost:9001/cluster-api');
 };
 
 export type AuthorizedClusterClient = ReturnType<typeof useAuthorizedK8sClient>;
