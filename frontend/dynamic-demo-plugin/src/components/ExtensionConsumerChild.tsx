@@ -1,6 +1,7 @@
+import { useK8sWatchResource } from '@openshift-console/dynamic-plugin-sdk/lib/api/api';
+import { K8sResourceCommon } from '@openshift-console/dynamic-plugin-sdk/lib/extensions/console-types';
 import * as React from 'react';
 // import { usePlansQuery } from './plans';
-import { K8sResourceCommon, useK8sWatchResource } from '@openshift-console/dynamic-plugin-sdk';
 
 const ExtensionConsumerChild: React.FC = () => {
   // const plansQuery = usePlansQuery();
